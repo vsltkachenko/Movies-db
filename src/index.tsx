@@ -16,6 +16,7 @@ import { LinearProgress } from "@mui/material"
 import { Suspense, lazy } from "react"
 import reportWebVitals from "./reportWebVitals"
 import store from "./store"
+import Extra from './features/Extra/Extra'
 
 const Movies = lazy(() => import("./features/Movies/Movies"))
 
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
 			{
 				path: "/",
 				element: <Home />,
+			},
+			{
+				path: "/extra",
+				element: <Extra />,
 			},
 			{
 				path: "/about",

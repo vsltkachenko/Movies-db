@@ -41,6 +41,7 @@ const AppHeader = ({ onLogin, onLogout }: AuthHeaderProps) => {
 						<HeaderLink to={"/"}>Home</HeaderLink>
 						<HeaderLink to={"/movies"}>Movies</HeaderLink>
 						<HeaderLink to={"/about"}>About</HeaderLink>
+						<HeaderLink to={"/extra"}>Extra</HeaderLink>
 					</nav>
 				</Box>
 				<AuthSection onLogin={onLogin} onLogout={onLogout} />

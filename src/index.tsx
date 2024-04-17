@@ -4,19 +4,22 @@ import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 import "./index.scss"
 
+import { LinearProgress } from "@mui/material"
+import { Suspense, lazy } from "react"
 import ReactDOM from "react-dom/client"
 import { Provider } from "react-redux"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import App from "./App"
 import { ErrorBoundary } from "./ErrorBoundary"
+import AuthCallback from "./auth/AuthCallback"
+import AuthentificationGuard from "./auth/AuthentificationGuard"
+import StatefulAuthProvider from "./auth/StatefulAuthProvider"
 import About from "./features/About/About"
+import Extra from "./features/Extra/Extra"
 import Home from "./features/Home/Home"
-// import Movies from "./features/Movies/Movies"
-import { LinearProgress } from "@mui/material"
-import { Suspense, lazy } from "react"
+import Profile from "./features/Profile/Profile"
 import reportWebVitals from "./reportWebVitals"
 import store from "./store"
-import Extra from './features/Extra/Extra'
 
 const Movies = lazy(() => import("./features/Movies/Movies"))
 
@@ -24,11 +27,13 @@ const router = createBrowserRouter([
 	{
 		path: "/",
 		element: (
-			<Provider store={store}>
-				<ErrorBoundary>
-					<App />
-				</ErrorBoundary>
-			</Provider>
+			<StatefulAuthProvider>
+				<Provider store={store}>
+					<ErrorBoundary>
+						<App />
+					</ErrorBoundary>
+				</Provider>
+			</StatefulAuthProvider>
 		),
 		children: [
 			{
@@ -45,13 +50,20 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/movies",
-				// element: <Movies />,
 				element: (
 					<Suspense fallback={<LinearProgress sx={{ mt: 1 }} />}>
 						<Movies />
 					</Suspense>
 				),
 				// lazy: () => import("./features/Movies/Movies"),
+			},
+			{
+				path: "/callback",
+				element: <AuthCallback />,
+			},
+			{
+				path: "/profile",
+				element: <AuthentificationGuard component={Profile} />,
 			},
 		],
 	},
@@ -64,7 +76,4 @@ root.render(
 	</>
 )
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals()

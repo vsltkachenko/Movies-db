@@ -1,17 +1,15 @@
+import { useAuth0 } from "@auth0/auth0-react"
 import { Box, Button, Container, Stack, Typography } from "@mui/material"
-import { useContext } from "react"
 import { Link as RouterLink } from "react-router-dom"
-import { AuthContext, anonymousUser } from "../../AuthContext"
 
 const Home = () => {
-	const { user } = useContext(AuthContext)
-	const loggedIn = user !== anonymousUser
+	const { user, isAuthenticated } = useAuth0()
 
-	const greeting = loggedIn
-		? `${user.name}, explore movies today whith us!`
+	const greeting = isAuthenticated
+		? `${user?.name}, explore movies today whith us!`
 		: "Explore movies today whith us!"
 
-		// throw new Error("Fatality!")
+	// throw new Error("Fatality!")
 
 	return (
 		<>
